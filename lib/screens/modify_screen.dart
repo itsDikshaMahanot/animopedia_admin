@@ -20,6 +20,10 @@ class _ModifyScreenState extends State<ModifyScreen> {
               new SliverAppBar(
                 actions: <Widget>[
                   IconButton(
+                    icon: Icon(Icons.photo_camera),
+                    onPressed: () {},
+                  ),
+                  IconButton(
                     icon: isEditable == false
                         ? Icon(Icons.edit)
                         : Icon(Icons.check_circle),
