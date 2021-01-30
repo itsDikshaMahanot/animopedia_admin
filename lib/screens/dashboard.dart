@@ -100,6 +100,7 @@ class _DashboardState extends State<Dashboard> {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 18.0),
                 child: TextField(
+                  autofocus: false,
                   style: TextStyle(fontSize: 22),
                   onChanged: (String value) {
                     print(value);
