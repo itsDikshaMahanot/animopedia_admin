@@ -65,46 +65,50 @@ class _ModifyScreenState extends State<ModifyScreen> {
           },
           body: SingleChildScrollView(
             child: Container(
+              margin: EdgeInsets.only(top: 10),
               child: Column(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 18.0, vertical: 10),
                     child: TextFormField(
                       decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'Species',
-                      ),
+                          border: OutlineInputBorder(),
+                          labelText: 'Species',
+                          labelStyle: TextStyle(fontSize: 20)),
                       textAlign: TextAlign.center,
                       enabled: isEditable,
                       initialValue: 'Chichlids',
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 18.0, vertical: 10),
                     child: TextFormField(
                       decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'Name',
-                      ),
+                          border: OutlineInputBorder(),
+                          labelText: 'Name',
+                          labelStyle: TextStyle(fontSize: 20)),
                       textAlign: TextAlign.center,
                       enabled: isEditable,
                       initialValue: 'Tiger Oscar',
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 18.0, vertical: 10),
                     child: TextFormField(
                       decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'Native',
-                      ),
+                          border: OutlineInputBorder(),
+                          labelText: 'Native',
+                          labelStyle: TextStyle(fontSize: 20)),
                       textAlign: TextAlign.center,
                       enabled: isEditable,
                       initialValue: 'South Africa',
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                    margin: EdgeInsets.symmetric(horizontal: 18, vertical: 20),
                     height: 50.0,
                     child: GestureDetector(
                       onTap: () {},

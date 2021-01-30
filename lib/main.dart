@@ -37,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Icon(Icons.add),
       ),
       bottomNavigationBar: BottomAppBar(
-        elevation: 5,
+        notchMargin: 10.0,
         child: Row(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -47,6 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Icon(
                 Icons.home,
                 size: 30,
+                color: Colors.blue,
               ),
             ),
             Padding(
@@ -73,7 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
         shape: CircularNotchedRectangle(),
-        color: Colors.orange,
+        color: Colors.white,
       ),
     );
   }

@@ -60,7 +60,10 @@ class _DashboardState extends State<Dashboard> {
                                           RaisedButton(
                                             onPressed: () {},
                                             color: Colors.yellow[800],
-                                            child: Icon(Icons.upload_file),
+                                            child: Icon(
+                                              Icons.upload_file,
+                                              semanticLabel: "Upload",
+                                            ),
                                           )
                                         ],
                                       )
