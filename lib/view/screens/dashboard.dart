@@ -1,4 +1,5 @@
-import 'package:animopedia_admin/screens/modify_screen.dart';
+import 'package:animopedia_admin/controller/add_category.dart';
+import 'package:animopedia_admin/view/screens/modify_screen.dart';
 import 'package:flutter/material.dart';
 
 class Dashboard extends StatefulWidget {
@@ -9,6 +10,11 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
+  AddCategoryController addCategoryController = AddCategoryController();
+
+  TextEditingController categoryController = TextEditingController();
+  TextEditingController subcategoryController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -41,10 +47,12 @@ class _DashboardState extends State<Dashboard> {
                                             MainAxisAlignment.center,
                                         children: [
                                           TextField(
+                                            controller: categoryController,
                                             decoration: InputDecoration(
                                                 hintText: "Category"),
                                           ),
                                           TextField(
+                                            controller: subcategoryController,
                                             decoration: InputDecoration(
                                                 hintText: "Sub Category"),
                                           ),
@@ -76,7 +84,17 @@ class _DashboardState extends State<Dashboard> {
                                               primary: Colors.greenAccent[
                                                   700], // back foreground
                                             ),
-                                            onPressed: () {},
+                                            onPressed: () {
+                                              addCategoryController.sendData(
+                                                  "fish",
+                                                  categoryController.text
+                                                      .toString(),
+                                                  subcategoryController.text
+                                                      .toString());
+
+                                              categoryController.clear();
+                                              subcategoryController.clear();
+                                            },
                                             child: Text("Add Category"),
                                           )
                                         ],

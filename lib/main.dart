@@ -2,8 +2,8 @@ import 'package:custom_navigator/custom_scaffold.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'package:animopedia_admin/screens/dashboard.dart';
-import 'package:animopedia_admin/screens/modify_screen.dart';
+import 'package:animopedia_admin/view/screens/dashboard.dart';
+import 'package:animopedia_admin/view/screens/modify_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -53,6 +53,8 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.amber,
+          onPressed: () => Navigator.of(context)
+              .push(MaterialPageRoute(builder: (context) => ModifyScreen())),
           child: Icon(
             Icons.add,
             size: 30,
