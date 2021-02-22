@@ -1,4 +1,5 @@
-import 'package:animopedia_admin/screens/modify_screen.dart';
+import 'package:animopedia_admin/controller/add_category.dart';
+import 'package:animopedia_admin/view/screens/modify_screen.dart';
 import 'package:flutter/material.dart';
 
 class Dashboard extends StatefulWidget {
@@ -9,6 +10,11 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
+  AddCategoryController addCategoryController = AddCategoryController();
+
+  TextEditingController categoryController = TextEditingController();
+  TextEditingController subcategoryController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -32,45 +38,71 @@ class _DashboardState extends State<Dashboard> {
                         if (index == 0) {
                           showDialog(
                               context: context,
-                              child: AlertDialog(
-                                content: Container(
-                                  height: 200,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      TextField(
-                                        decoration: InputDecoration(
-                                            hintText: "Category"),
-                                      ),
-                                      TextField(
-                                        decoration: InputDecoration(
-                                            hintText: "Sub Category"),
-                                      ),
-                                      SizedBox(
-                                        height: 20,
-                                      ),
-                                      Row(
-                                        mainAxisSize: MainAxisSize.max,
+                              builder: (BuildContext context) {
+                                return FittedBox(
+                                  child: AlertDialog(
+                                    content: Container(
+                                      child: Column(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
+                                            MainAxisAlignment.center,
                                         children: [
-                                          FlutterLogo(
-                                            size: 50,
+                                          TextField(
+                                            controller: categoryController,
+                                            decoration: InputDecoration(
+                                                hintText: "Category"),
                                           ),
-                                          RaisedButton(
-                                            onPressed: () {},
-                                            color: Colors.yellow[800],
-                                            child: Icon(
-                                              Icons.upload_file,
-                                              semanticLabel: "Upload",
+                                          TextField(
+                                            controller: subcategoryController,
+                                            decoration: InputDecoration(
+                                                hintText: "Sub Category"),
+                                          ),
+                                          SizedBox(
+                                            height: 20,
+                                          ),
+                                          Row(
+                                            mainAxisSize: MainAxisSize.max,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              FlutterLogo(
+                                                size: 50,
+                                              ),
+                                              ElevatedButton(
+                                                onPressed: () {},
+                                                child: Icon(
+                                                  Icons.upload_file,
+                                                  semanticLabel: "Upload",
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            height: 20,
+                                          ),
+                                          ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                              primary: Colors.greenAccent[
+                                                  700], // back foreground
                                             ),
+                                            onPressed: () {
+                                              addCategoryController.sendData(
+                                                  "fish",
+                                                  categoryController.text
+                                                      .toString(),
+                                                  subcategoryController.text
+                                                      .toString());
+
+                                              categoryController.clear();
+                                              subcategoryController.clear();
+                                            },
+                                            child: Text("Add Category"),
                                           )
                                         ],
-                                      )
-                                    ],
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ));
+                                );
+                              });
                         }
                       },
                       child: Container(
@@ -123,12 +155,7 @@ class _DashboardState extends State<Dashboard> {
                     elevation: 5,
                     margin: EdgeInsets.fromLTRB(10, 10, 10, 30),
                     child: GestureDetector(
-                      onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) {
-                          return ModifyScreen();
-                        }),
-                      ),
+                      onTap: () => _openDetailsPage(context),
                       child: Container(
                           height: 150,
                           width: 150,
@@ -145,6 +172,9 @@ class _DashboardState extends State<Dashboard> {
         ));
   }
 }
+
+_openDetailsPage(BuildContext context) => Navigator.of(context)
+    .push(MaterialPageRoute(builder: (context) => ModifyScreen()));
 
 //* Overlapping Buttons on card
 // Positioned(
