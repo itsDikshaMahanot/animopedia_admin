@@ -32,45 +32,48 @@ class _DashboardState extends State<Dashboard> {
                         if (index == 0) {
                           showDialog(
                               context: context,
-                              child: AlertDialog(
-                                content: Container(
-                                  height: 200,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      TextField(
-                                        decoration: InputDecoration(
-                                            hintText: "Category"),
-                                      ),
-                                      TextField(
-                                        decoration: InputDecoration(
-                                            hintText: "Sub Category"),
-                                      ),
-                                      SizedBox(
-                                        height: 20,
-                                      ),
-                                      Row(
-                                        mainAxisSize: MainAxisSize.max,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          FlutterLogo(
-                                            size: 50,
-                                          ),
-                                          RaisedButton(
-                                            onPressed: () {},
-                                            color: Colors.yellow[800],
-                                            child: Icon(
-                                              Icons.upload_file,
-                                              semanticLabel: "Upload",
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  content: Container(
+                                    height: 200,
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        TextField(
+                                          decoration: InputDecoration(
+                                              hintText: "Category"),
+                                        ),
+                                        TextField(
+                                          decoration: InputDecoration(
+                                              hintText: "Sub Category"),
+                                        ),
+                                        SizedBox(
+                                          height: 20,
+                                        ),
+                                        Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            FlutterLogo(
+                                              size: 50,
                                             ),
-                                          )
-                                        ],
-                                      )
-                                    ],
+                                            RaisedButton(
+                                              onPressed: () {},
+                                              color: Colors.yellow[800],
+                                              child: Icon(
+                                                Icons.upload_file,
+                                                semanticLabel: "Upload",
+                                              ),
+                                            )
+                                          ],
+                                        )
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              ));
+                                );
+                              });
                         }
                       },
                       child: Container(
@@ -123,12 +126,7 @@ class _DashboardState extends State<Dashboard> {
                     elevation: 5,
                     margin: EdgeInsets.fromLTRB(10, 10, 10, 30),
                     child: GestureDetector(
-                      onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) {
-                          return ModifyScreen();
-                        }),
-                      ),
+                      onTap: () => _openDetailsPage(context),
                       child: Container(
                           height: 150,
                           width: 150,
@@ -145,6 +143,9 @@ class _DashboardState extends State<Dashboard> {
         ));
   }
 }
+
+_openDetailsPage(BuildContext context) => Navigator.of(context)
+    .push(MaterialPageRoute(builder: (context) => ModifyScreen()));
 
 //* Overlapping Buttons on card
 // Positioned(
