@@ -33,43 +33,54 @@ class _DashboardState extends State<Dashboard> {
                           showDialog(
                               context: context,
                               builder: (BuildContext context) {
-                                return AlertDialog(
-                                  content: Container(
-                                    height: 200,
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        TextField(
-                                          decoration: InputDecoration(
-                                              hintText: "Category"),
-                                        ),
-                                        TextField(
-                                          decoration: InputDecoration(
-                                              hintText: "Sub Category"),
-                                        ),
-                                        SizedBox(
-                                          height: 20,
-                                        ),
-                                        Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceEvenly,
-                                          children: [
-                                            FlutterLogo(
-                                              size: 50,
-                                            ),
-                                            RaisedButton(
-                                              onPressed: () {},
-                                              color: Colors.yellow[800],
-                                              child: Icon(
-                                                Icons.upload_file,
-                                                semanticLabel: "Upload",
+                                return FittedBox(
+                                  child: AlertDialog(
+                                    content: Container(
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          TextField(
+                                            decoration: InputDecoration(
+                                                hintText: "Category"),
+                                          ),
+                                          TextField(
+                                            decoration: InputDecoration(
+                                                hintText: "Sub Category"),
+                                          ),
+                                          SizedBox(
+                                            height: 20,
+                                          ),
+                                          Row(
+                                            mainAxisSize: MainAxisSize.max,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              FlutterLogo(
+                                                size: 50,
                                               ),
-                                            )
-                                          ],
-                                        )
-                                      ],
+                                              ElevatedButton(
+                                                onPressed: () {},
+                                                child: Icon(
+                                                  Icons.upload_file,
+                                                  semanticLabel: "Upload",
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            height: 20,
+                                          ),
+                                          ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                              primary: Colors.greenAccent[
+                                                  700], // back foreground
+                                            ),
+                                            onPressed: () {},
+                                            child: Text("Add Category"),
+                                          )
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 );
