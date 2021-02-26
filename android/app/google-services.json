@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "495933321638",
+    "project_id": "animopedia-ad64",
+    "storage_bucket": "animopedia-ad64.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:495933321638:android:d07d4a196d67928e871f67",
+        "android_client_info": {
+          "package_name": "com.example.animopedia_admin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "495933321638-plmgsllp2ohn4ofv1sqce7ljqs87i3ph.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAIlGbbUtMzW7f3dE7kgitiAQx9fQr1uGM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "495933321638-plmgsllp2ohn4ofv1sqce7ljqs87i3ph.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

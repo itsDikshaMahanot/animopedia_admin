@@ -1,5 +1,6 @@
 import 'package:animopedia_admin/controller/add_category.dart';
 import 'package:animopedia_admin/view/screens/modify_screen.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 class Dashboard extends StatefulWidget {
@@ -10,10 +11,32 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
+  List<Map> categoryImage = [
+    {'name': '', 'img': ''},
+    {'name': 'Fish', 'img': 'images/fish.jpg'},
+    {'name': 'Dog', 'img': 'images/dog.jpg'},
+    {'name': 'Plant', 'img': 'images/plant.jpg'},
+    {'name': 'Plant', 'img': 'images/plant.jpg'}
+  ];
   AddCategoryController addCategoryController = AddCategoryController();
 
   TextEditingController categoryController = TextEditingController();
   TextEditingController subcategoryController = TextEditingController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    postData();
+    print("hello");
+  }
+
+  void postData() {
+    final databaseReference = FirebaseDatabase.instance.reference();
+    databaseReference
+        .child("flutterDevsTeam1")
+        .set({'name': 'Deepak Nishad', 'description': 'Team Lead'});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +51,7 @@ class _DashboardState extends State<Dashboard> {
               width: double.infinity,
               height: 100,
               child: ListView.builder(
+                itemCount: categoryImage.length,
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (BuildContext context, int index) {
                   return Card(
@@ -104,17 +128,22 @@ class _DashboardState extends State<Dashboard> {
                                 );
                               });
                         }
+                        if (index != 0) {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => ModifyScreen()));
+                        }
                       },
                       child: Container(
-                        height: 80,
-                        width: 80,
-                        child: index == 0
-                            ? Icon(
-                                Icons.add,
-                                size: 30,
-                              )
-                            : FlutterLogo(),
-                      ),
+                          height: 80,
+                          width: 80,
+                          child: index == 0
+                              ? Icon(
+                                  Icons.add,
+                                  size: 30,
+                                )
+                              : Image(
+                                  image:
+                                      AssetImage(categoryImage[index]['img']))),
                     ),
                   );
                 },
