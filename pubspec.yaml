@@ -25,11 +25,19 @@ dependencies:
     sdk: flutter
   cupertino_icons: ^1.0.1
   custom_navigator: ^0.3.0
-  http: ^0.11.3
+  http: ^0.13.1
   sliver_fab: ^1.0.0
   get: ^3.25.4
-  firebase_database: 
-  firebase_core:
+  firebase_database: ^6.1.0
+  firebase_core: 
+  image_picker: ^0.7.3
+  firebase_storage: ^8.0.0
+  permission_handler: ^6.1.1
+  # firebase_core: ^0.4.5
+  # image_picker: ^0.6.7+14
+  # firebase_storage: ^3.1.6
+  # permission_handler: ^5.0.1+1
+  
 
 dev_dependencies:
   flutter_test:

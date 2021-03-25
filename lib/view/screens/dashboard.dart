@@ -1,7 +1,14 @@
+import 'dart:io';
+
 import 'package:animopedia_admin/controller/add_category.dart';
 import 'package:animopedia_admin/view/screens/modify_screen.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class Dashboard extends StatefulWidget {
   Dashboard({Key key}) : super(key: key);
@@ -18,25 +25,23 @@ class _DashboardState extends State<Dashboard> {
     {'name': 'Plant', 'img': 'images/plant.jpg'},
     {'name': 'Plant', 'img': 'images/plant.jpg'}
   ];
-  AddCategoryController addCategoryController = AddCategoryController();
 
+  AddCategoryController addCategoryController = AddCategoryController();
   TextEditingController categoryController = TextEditingController();
   TextEditingController subcategoryController = TextEditingController();
+  final databaseRef = FirebaseDatabase.instance.reference();
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    postData();
-    print("hello");
-  }
+  // @override
+  // void initState() {
+  //   // TODO: implement initState
+  //   super.initState();
+  //   postData();
+  //   print("hello");
+  // }
 
-  void postData() {
-    final databaseReference = FirebaseDatabase.instance.reference();
-    databaseReference
-        .child("flutterDevsTeam1")
-        .set({'name': 'Deepak Nishad', 'description': 'Team Lead'});
-  }
+  final _imagePicker = ImagePicker();
+  PickedFile _image;
+  var _fileImg;
 
   @override
   Widget build(BuildContext context) {
@@ -63,69 +68,89 @@ class _DashboardState extends State<Dashboard> {
                           showDialog(
                               context: context,
                               builder: (BuildContext context) {
-                                return FittedBox(
-                                  child: AlertDialog(
-                                    content: Container(
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          TextField(
-                                            controller: categoryController,
-                                            decoration: InputDecoration(
-                                                hintText: "Category"),
-                                          ),
-                                          TextField(
-                                            controller: subcategoryController,
-                                            decoration: InputDecoration(
-                                                hintText: "Sub Category"),
-                                          ),
-                                          SizedBox(
-                                            height: 20,
-                                          ),
-                                          Row(
-                                            mainAxisSize: MainAxisSize.max,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceEvenly,
-                                            children: [
-                                              FlutterLogo(
-                                                size: 50,
-                                              ),
-                                              ElevatedButton(
-                                                onPressed: () {},
-                                                child: Icon(
-                                                  Icons.upload_file,
-                                                  semanticLabel: "Upload",
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                          SizedBox(
-                                            height: 20,
-                                          ),
-                                          ElevatedButton(
-                                            style: ElevatedButton.styleFrom(
-                                              primary: Colors.greenAccent[
-                                                  700], // back foreground
+                                return StatefulBuilder(
+                                    builder: (context, setState) {
+                                  return FittedBox(
+                                    child: AlertDialog(
+                                      content: Container(
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            TextField(
+                                              controller: categoryController,
+                                              decoration: InputDecoration(
+                                                  hintText: "Category"),
                                             ),
-                                            onPressed: () {
-                                              addCategoryController.sendData(
-                                                  "fish",
-                                                  categoryController.text
-                                                      .toString(),
-                                                  subcategoryController.text
-                                                      .toString());
-
-                                              categoryController.clear();
-                                              subcategoryController.clear();
-                                            },
-                                            child: Text("Add Category"),
-                                          )
-                                        ],
+                                            TextField(
+                                              controller: subcategoryController,
+                                              decoration: InputDecoration(
+                                                  hintText: "Sub Category"),
+                                            ),
+                                            SizedBox(
+                                              height: 20,
+                                            ),
+                                            Row(
+                                              mainAxisSize: MainAxisSize.max,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceEvenly,
+                                              children: [
+                                                ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10.0),
+                                                  child: Container(
+                                                      height: 100,
+                                                      width: 120,
+                                                      child: _fileImg != null
+                                                          ? Image.file(_fileImg)
+                                                          : Icon(
+                                                              Icons
+                                                                  .image_outlined,
+                                                              size: 50,
+                                                            )),
+                                                ),
+                                                ElevatedButton(
+                                                  onPressed: () {
+                                                    selectImage();
+                                                  },
+                                                  child: Icon(
+                                                    Icons.upload_file,
+                                                    semanticLabel: "Upload",
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                            SizedBox(
+                                              height: 20,
+                                            ),
+                                            ElevatedButton(
+                                              style: ElevatedButton.styleFrom(
+                                                primary: Colors.greenAccent[
+                                                    700], // back foreground
+                                              ),
+                                              onPressed: () {
+                                                addData(categoryController.text,
+                                                    subcategoryController.text);
+                                                // addCategoryController.sendData(
+                                                //     "fish",
+                                                //     categoryController.text
+                                                //         .toString(),
+                                                //     subcategoryController.text
+                                                //         .toString());
+                                                uploadImage();
+                                                categoryController.clear();
+                                                subcategoryController.clear();
+                                                //clearimage();
+                                              },
+                                              child: Text("Add Category"),
+                                            )
+                                          ],
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                );
+                                  );
+                                });
                               });
                         }
                         if (index != 0) {
@@ -200,31 +225,63 @@ class _DashboardState extends State<Dashboard> {
           ],
         ));
   }
+
+  void addData(String cat_data, String subcat_data) {
+    databaseRef.push().set({'category': cat_data, 'sub category': subcat_data});
+  }
+
+  void clearimage() {
+    setState(() {
+      _image = null;
+    });
+  }
+
+  uploadImage() async {
+    final _firebaseStorage = FirebaseStorage.instance;
+    String filename = basename(_image.path);
+
+    if (_image != null) {
+      //Upload to Firebase
+      print(filename);
+      var snapshot = await _firebaseStorage
+          .ref()
+          .child('images/$filename')
+          .putFile(_fileImg);
+      var downloadUrl = await snapshot.ref.getDownloadURL();
+      // setState(() {
+      //   imageUrl = downloadUrl;
+      // });
+      print(downloadUrl);
+    } else {
+      print('No Image Path Received');
+    }
+  }
+
+  selectImage() async {
+    imageCache.clear();
+    //Check Permissions
+    await Permission.photos.request();
+
+    var permissionStatus = await Permission.photos.status;
+
+    if (permissionStatus.isGranted) {
+      //Select Image
+      _image = await _imagePicker.getImage(source: ImageSource.gallery);
+      _fileImg = File(_image.path);
+      setState() {
+        if (_fileImg != null) {
+          return Image.file(_fileImg);
+          // return CircularProgressIndicator();
+        } else {
+          imageCache.clear();
+          _image = null;
+        }
+      }
+    } else {
+      print('Permission not granted. Try Again with permission access');
+    }
+  }
 }
 
 _openDetailsPage(BuildContext context) => Navigator.of(context)
     .push(MaterialPageRoute(builder: (context) => ModifyScreen()));
-
-//* Overlapping Buttons on card
-// Positioned(
-//                           left: 0,
-//                           right: 0,
-//                           bottom: -25,
-//                           child: Row(
-//                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-//                             children: [
-//                               FloatingActionButton(
-//                                 backgroundColor: Colors.red,
-//                                 mini: true,
-//                                 onPressed: null,
-//                                 child: Icon(Icons.delete),
-//                               ),
-//                               FloatingActionButton(
-//                                 backgroundColor: Colors.amber,
-//                                 mini: true,
-//                                 onPressed: null,
-//                                 child: Icon(Icons.edit),
-//                               ),
-//                             ],
-//                           ),
-//                         )
