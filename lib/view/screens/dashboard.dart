@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:animopedia_admin/controller/add_category.dart';
 import 'package:animopedia_admin/view/screens/modify_screen.dart';
+import 'package:animopedia_admin/view/screens/show_category.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -24,6 +25,10 @@ class _DashboardState extends State<Dashboard> {
     {'name': 'Dog', 'img': 'images/dog.jpg'},
     {'name': 'Plant', 'img': 'images/plant.jpg'},
     {'name': 'Plant', 'img': 'images/plant.jpg'}
+  ];
+
+  List<Map> listdata = [
+    {'name': 'Fish', 'img': 'images/fish.jpg'},
   ];
 
   AddCategoryController addCategoryController = AddCategoryController();
@@ -154,21 +159,30 @@ class _DashboardState extends State<Dashboard> {
                               });
                         }
                         if (index != 0) {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => ModifyScreen()));
+                          if (index == 1) {
+                            setState(() {
+                              listdata = categoryImage;
+                            });
+                          }
+                          // Navigator.of(context).push(MaterialPageRoute(
+                          //     builder: (context) => show_category()));
                         }
                       },
-                      child: Container(
-                          height: 80,
-                          width: 80,
-                          child: index == 0
-                              ? Icon(
-                                  Icons.add,
-                                  size: 30,
-                                )
-                              : Image(
-                                  image:
-                                      AssetImage(categoryImage[index]['img']))),
+                      child: Row(
+                        children: [
+                          Container(
+                              height: 80,
+                              width: 80,
+                              child: index == 0
+                                  ? Icon(
+                                      Icons.add,
+                                      size: 30,
+                                    )
+                                  : Image(
+                                      image: AssetImage(
+                                          categoryImage[index]['img']))),
+                        ],
+                      ),
                     ),
                   );
                 },
@@ -202,6 +216,7 @@ class _DashboardState extends State<Dashboard> {
                 child: Container(
               margin: EdgeInsets.symmetric(horizontal: 10),
               child: GridView.builder(
+                itemCount: listdata.length,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2),
                 itemBuilder: (BuildContext context, int index) {
@@ -209,15 +224,12 @@ class _DashboardState extends State<Dashboard> {
                     elevation: 5,
                     margin: EdgeInsets.fromLTRB(10, 10, 10, 30),
                     child: GestureDetector(
-                      onTap: () => _openDetailsPage(context),
-                      child: Container(
-                          height: 150,
-                          width: 150,
-                          child: Image.network(
-                            "https://source.unsplash.com/200x200/?fish",
-                            fit: BoxFit.cover,
-                          )),
-                    ),
+                        onTap: () => _openDetailsPage(context),
+                        child: Container(
+                            height: 150,
+                            width: 150,
+                            child: Image(
+                                image: AssetImage(listdata[index]['img'])))),
                   );
                 },
               ),
